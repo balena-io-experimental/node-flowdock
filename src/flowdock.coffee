@@ -120,10 +120,15 @@ class Session extends events.EventEmitter
       if err
         error = new Error('Couldn\'t connect to Flowdock:' + err.toString())
       else if res.statusCode >= 300
-        error = new Error('Received status ' + res.statusCode)
+        errResponseBody = ''
+        try
+          errResponseBody = JSON.stringify(body)
+        finally
+          errMsg = 'Request: Path: ' + res.request.url + ' Body: ' + res.request.body
+          error = new Error('Received status ' + res.statusCode + ' ' + errResponseBody + ' ' + errMsg)
       if error?
         @emit 'error', error
-        cb?(error)
+        cb?(error, body, res)
       else
         cb?(null, body, res)
 
