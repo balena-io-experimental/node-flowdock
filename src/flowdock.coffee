@@ -124,7 +124,7 @@ class Session extends events.EventEmitter
         try
           errResponseBody = JSON.stringify(body)
         finally
-          errMsg = 'Request: Path: ' + res.request.url + ' Body: ' + res.request.body
+          errMsg = 'Request: Method: ' + res.request.method + ' Path: ' + res.request.path + ' Body: ' + res.request.body
           error = new Error('Received status ' + res.statusCode + ' ' + errResponseBody + ' ' + errMsg)
       if error?
         @emit 'error', error
